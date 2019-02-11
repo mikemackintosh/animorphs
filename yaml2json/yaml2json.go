@@ -17,7 +17,7 @@ func main() {
 	}
 
 	if scanner.Err() != nil {
-    fmt.Println("Unable to read input")
+    		fmt.Println("Unable to read input")
 		os.Exit(1)
 	}
 
