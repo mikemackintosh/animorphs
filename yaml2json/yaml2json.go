@@ -11,19 +11,29 @@ import (
 
 func main() {
 	var text string
+	var err error
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		text = text + scanner.Text()
 	}
 
 	if scanner.Err() != nil {
-    		fmt.Println("Unable to read input")
+		fmt.Println("Unable to read input")
 		os.Exit(1)
 	}
 
-	var object interface{}
-	_ = yaml.Unmarshal([]byte(text), &object)
+	var object map[string]interface{}
+	err = yaml.Unmarshal([]byte(text), &object)
+	if err != nil {
+		fmt.Printf("This isn't valid YAMLL %s\n", err)
+		os.Exit(1)
+	}
 
-	o, _ := json.Marshal(&object)
+	o, err := json.Marshal(&object)
+	if err != nil {
+		fmt.Printf("Error converting: %s\n", err)
+		os.Exit(1)
+	}
+
 	fmt.Println(string(o))
 }
